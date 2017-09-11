@@ -1,3 +1,4 @@
+import { AuthenticationService } from '../../shared/services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderProfileComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private authService: AuthenticationService) { }
+  
   ngOnInit() {
+    this.authService.getAccessToken();
   }
 
 }

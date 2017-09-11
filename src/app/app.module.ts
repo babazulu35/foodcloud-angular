@@ -1,3 +1,8 @@
+import { HttpModule } from '@angular/http';
+import { AuthenticationService } from './shared/services/authentication.service';
+import { ResponseTimeInterceptor } from './shared/interceptors/response-time-interceptor';
+import { FoodInterceptor } from './shared/interceptors/food-interceptor';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,10 +23,21 @@ import { HeaderComponent } from './shared/content/header.component';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     OrderProfileModule
   ],
-  providers: [],
+  providers: [AuthenticationService,{
+    provide:HTTP_INTERCEPTORS,
+    useClass: FoodInterceptor,
+    multi:true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ResponseTimeInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
